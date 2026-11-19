@@ -1,0 +1,784 @@
+/* ============================================================================
+ * Lemma Annotations Styles: Multi-Color Highlights & Word-Style Inline Comments
+ * Harmonized with Typora LaTeX Academic Theme (html[data-theme="light" | "dark"])
+ * ============================================================================ */
+
+:root,
+html[data-theme="light"] {
+  /* 4 Academic Highlighter Inks (Light Paper) */
+  --lemma-hl-yellow: #fff199;
+  --lemma-hl-green: #ccf3d6;
+  --lemma-hl-blue: #cfe8ff;
+  --lemma-hl-pink: #ffd6e4;
+
+  /* Inline Comment Anchor Tokens (Light Paper) */
+  --lemma-comment-bg: rgba(255, 224, 150, 0.24);
+  --lemma-comment-border: rgba(196, 127, 23, 0.65);
+  --lemma-comment-active-bg: rgba(245, 158, 11, 0.34);
+  --lemma-comment-active-border: #d97706;
+  --lemma-comment-active-glow: rgba(245, 158, 11, 0.2);
+
+  /* Floating Selection Toolbar Surface (Light) */
+  --lemma-toolbar-bg: rgba(255, 255, 255, 0.96);
+  --lemma-toolbar-border: #d5dae1;
+  --lemma-toolbar-shadow: 0 8px 24px rgba(15, 23, 42, 0.14),
+    0 2px 6px rgba(15, 23, 42, 0.07);
+  --lemma-toolbar-comment-hover-bg: rgba(217, 119, 6, 0.11);
+  --lemma-toolbar-comment-hover-text: #b45309;
+
+  /* Comment Rail & Card Tokens (Light) */
+  --lemma-comment-accent: #d97706;
+  --lemma-comment-accent-text: #9a5b13;
+  --lemma-comment-accent-soft-bg: rgba(245, 158, 11, 0.11);
+  --lemma-comment-quote-bg: #faf8f3;
+  --lemma-comment-quote-border: rgba(217, 119, 6, 0.58);
+  --lemma-comment-card-shadow-hover: 0 3px 10px rgba(15, 23, 42, 0.06);
+  --lemma-comment-card-shadow-active: 0 6px 18px rgba(15, 23, 42, 0.09),
+    0 1px 3px rgba(217, 119, 6, 0.12);
+  --lemma-comment-resolve-hover-bg: rgba(16, 185, 129, 0.12);
+  --lemma-comment-resolve-hover-text: #047857;
+}
+
+html[data-theme="dark"] {
+  /* 4 Academic Highlighter Inks (Low-Glare Dark Slate) */
+  --lemma-hl-yellow: rgba(227, 179, 65, 0.34);
+  --lemma-hl-green: rgba(63, 185, 80, 0.30);
+  --lemma-hl-blue: rgba(88, 166, 255, 0.30);
+  --lemma-hl-pink: rgba(247, 120, 186, 0.30);
+
+  /* Inline Comment Anchor Tokens (Dark Slate) */
+  --lemma-comment-bg: rgba(210, 153, 34, 0.16);
+  --lemma-comment-border: rgba(196, 127, 23, 0.65);
+  --lemma-comment-active-bg: rgba(245, 158, 11, 0.32);
+  --lemma-comment-active-border: #d97706;
+  --lemma-comment-active-glow: rgba(245, 158, 11, 0.24);
+
+  /* Floating Selection Toolbar Surface (Dark) */
+  --lemma-toolbar-bg: rgba(28, 32, 39, 0.96);
+  --lemma-toolbar-border: #363c46;
+  --lemma-toolbar-shadow: 0 10px 28px rgba(0, 0, 0, 0.52),
+    0 2px 6px rgba(0, 0, 0, 0.36);
+  --lemma-toolbar-comment-hover-bg: rgba(245, 158, 11, 0.18);
+  --lemma-toolbar-comment-hover-text: #fbbf24;
+
+  /* Comment Rail & Card Tokens (Dark) */
+  --lemma-comment-accent: #d97706;
+  --lemma-comment-accent-text: #fbbf24;
+  --lemma-comment-accent-soft-bg: rgba(245, 158, 11, 0.16);
+  --lemma-comment-quote-bg: rgba(255, 255, 255, 0.035);
+  --lemma-comment-quote-border: rgba(245, 158, 11, 0.62);
+  --lemma-comment-card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --lemma-comment-card-shadow-active: 0 8px 22px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(217, 119, 6, 0.35);
+  --lemma-comment-resolve-hover-bg: rgba(46, 160, 67, 0.2);
+  --lemma-comment-resolve-hover-text: #56d364;
+}
+
+/* ---- 1. Inline Comment Anchor Spans inside #write ---- */
+#write .lemma-comment-anchor,
+#write .lemma-comment-draft-range {
+  background-color: var(--lemma-comment-bg);
+  border-bottom: 2px solid var(--lemma-comment-border);
+  border-radius: 2px;
+  padding: 0.04em 0.08em;
+  color: inherit;
+  cursor: pointer;
+  text-indent: 0 !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-color 0.16s ease, border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+#write .lemma-comment-anchor:hover {
+  border-bottom-color: var(--lemma-comment-active-border);
+}
+
+#write .lemma-comment-anchor.lemma-comment-anchor-active,
+#write .lemma-comment-anchor-active,
+#write .lemma-comment-draft-range {
+  background-color: var(--lemma-comment-active-bg);
+  border-bottom: 2px solid var(--lemma-comment-active-border);
+  box-shadow: 0 0 0 2px var(--lemma-comment-active-glow);
+  scroll-margin-top: 96px;
+}
+
+/* ---- 2. 4-Color Highlighter Marks inside #write ---- */
+#write mark,
+#write mark.lemma-highlight {
+  background-color: var(--lemma-hl-yellow);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0.06em 0.18em;
+  text-indent: 0 !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+#write mark[data-color="yellow"],
+#write mark[data-highlight-color="yellow"],
+#write mark.lemma-highlight-yellow {
+  background-color: var(--lemma-hl-yellow);
+}
+
+#write mark[data-color="green"],
+#write mark[data-highlight-color="green"],
+#write mark.lemma-highlight-green {
+  background-color: var(--lemma-hl-green);
+}
+
+#write mark[data-color="blue"],
+#write mark[data-highlight-color="blue"],
+#write mark.lemma-highlight-blue {
+  background-color: var(--lemma-hl-blue);
+}
+
+#write mark[data-color="pink"],
+#write mark[data-highlight-color="pink"],
+#write mark.lemma-highlight-pink {
+  background-color: var(--lemma-hl-pink);
+}
+
+/* Preserve chosen highlighter fill when BOTH highlight & comment apply to the same phrase */
+#write mark .lemma-comment-anchor,
+#write mark .lemma-comment-draft-range,
+#write .lemma-comment-anchor:has(mark) {
+  background-color: transparent;
+}
+
+#write mark .lemma-comment-anchor.lemma-comment-anchor-active,
+#write mark .lemma-comment-anchor-active,
+#write mark .lemma-comment-draft-range,
+#write .lemma-comment-anchor.lemma-comment-anchor-active:has(mark),
+#write .lemma-comment-draft-range:has(mark),
+#write mark.lemma-comment-anchor-active,
+#write mark.lemma-comment-draft-range {
+  border-bottom: 2px solid var(--lemma-comment-active-border);
+  box-shadow: 0 1px 0 0 var(--lemma-comment-active-border),
+    0 0 0 2px var(--lemma-comment-active-glow);
+}
+
+/* Harmonize inline KaTeX math inside highlights & comments */
+#write mark .lemma-math-inline:not(:hover):not(.is-selected):not(.ProseMirror-selectednode),
+#write .lemma-comment-anchor .lemma-math-inline:not(:hover):not(.is-selected):not(.ProseMirror-selectednode) {
+  background-color: transparent;
+}
+
+/* ---- 3. Floating Selection Toolbar (.lemma-selection-toolbar) ---- */
+@keyframes lemmaToolbarPop {
+  from {
+    opacity: 0;
+    transform: translateY(3px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.lemma-selection-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background-color: var(--lemma-toolbar-bg);
+  border: 1px solid var(--lemma-toolbar-border);
+  box-shadow: var(--lemma-toolbar-shadow);
+  font-family: var(--font-sans);
+  user-select: none;
+  animation: lemmaToolbarPop 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lemma-selection-swatches {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 2px;
+}
+
+.lemma-swatch-btn {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  flex-shrink: 0;
+}
+
+.lemma-swatch-btn:hover {
+  transform: scale(1.14);
+}
+
+.lemma-swatch-yellow {
+  background-color: #facc15;
+  border-color: rgba(161, 98, 7, 0.38);
+  color: #422006;
+}
+
+.lemma-swatch-green {
+  background-color: #4ade80;
+  border-color: rgba(21, 128, 61, 0.38);
+  color: #052e16;
+}
+
+.lemma-swatch-blue {
+  background-color: #60a5fa;
+  border-color: rgba(29, 78, 216, 0.38);
+  color: #172554;
+}
+
+.lemma-swatch-pink {
+  background-color: #f472b6;
+  border-color: rgba(190, 24, 93, 0.38);
+  color: #500724;
+}
+
+.lemma-swatch-btn.is-active {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 3.5px var(--heading-color);
+}
+
+.lemma-selection-clear-btn {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin-left: 1px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--control-text-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.lemma-selection-clear-btn:hover {
+  background-color: var(--alert-caution-bg);
+  color: var(--alert-caution-title);
+}
+
+.lemma-selection-divider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--border-color);
+  flex-shrink: 0;
+}
+
+.lemma-selection-comment-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 25px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--heading-color);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.lemma-selection-comment-btn:hover {
+  background-color: var(--lemma-toolbar-comment-hover-bg);
+  color: var(--lemma-toolbar-comment-hover-text);
+}
+
+/* ---- 4. Right Academic Comment Rail (aside.lemma-comment-rail) ---- */
+.lemma-comment-rail {
+  width: 312px;
+  min-width: 312px;
+  max-width: 312px;
+  flex-shrink: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--side-bar-bg-color);
+  border-left: var(--window-border);
+  font-family: var(--font-sans);
+  color: var(--text-color);
+  overflow: hidden;
+  user-select: none;
+}
+
+.lemma-comment-rail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-height: 36px;
+  padding: 4px 8px 4px 12px;
+  border-bottom: var(--window-border);
+  flex-shrink: 0;
+}
+
+.lemma-comment-rail-title-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--heading-color);
+  min-width: 0;
+}
+
+.lemma-comment-rail-title {
+  font-family: var(--font-heading);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  white-space: nowrap;
+}
+
+.lemma-comment-count-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 19px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background-color: var(--lemma-comment-accent-soft-bg);
+  color: var(--lemma-comment-accent-text);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.lemma-comment-rail-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.lemma-comment-header-text-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.73rem;
+  padding: 3px 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.lemma-comment-header-text-btn:hover {
+  background-color: var(--item-hover-bg-color);
+  color: var(--heading-color);
+}
+
+.lemma-comment-confirm-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.lemma-comment-confirm-danger-btn {
+  appearance: none;
+  border: 1px solid var(--alert-caution-border);
+  border-radius: 4px;
+  background-color: var(--alert-caution-bg);
+  color: var(--alert-caution-title);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.12s ease;
+}
+
+.lemma-comment-confirm-danger-btn:hover {
+  opacity: 0.88;
+}
+
+.lemma-comment-confirm-cancel-btn {
+  appearance: none;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--bg-color);
+  color: var(--control-text-color);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  padding: 2px 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.lemma-comment-confirm-cancel-btn:hover {
+  background-color: var(--item-hover-bg-color);
+  color: var(--heading-color);
+}
+
+.lemma-comment-close-btn {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--control-text-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.lemma-comment-close-btn:hover {
+  background-color: var(--item-hover-bg-color);
+  color: var(--heading-color);
+}
+
+/* ---- 5. Comment Card List & Word-Style Cards ---- */
+.lemma-comment-rail-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 10px 10px 24px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lemma-comment-card {
+  position: relative;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid transparent;
+  border-radius: 6px;
+  padding: 10px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  cursor: pointer;
+  user-select: text;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.lemma-comment-card:hover {
+  border-color: var(--latex-border-soft);
+  border-left-color: rgba(217, 119, 6, 0.45);
+  box-shadow: var(--lemma-comment-card-shadow-hover);
+}
+
+.lemma-comment-card.is-active {
+  border-color: rgba(217, 119, 6, 0.48);
+  border-left: 3px solid var(--lemma-comment-accent);
+  box-shadow: var(--lemma-comment-card-shadow-active);
+}
+
+.lemma-comment-card.is-draft {
+  cursor: default;
+  border-color: rgba(217, 119, 6, 0.68);
+  border-left: 3px solid var(--lemma-comment-accent);
+  box-shadow: var(--lemma-comment-card-shadow-active);
+}
+
+.lemma-comment-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  user-select: none;
+}
+
+.lemma-comment-card-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.lemma-comment-index-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background-color: var(--lemma-comment-accent-soft-bg);
+  color: var(--lemma-comment-accent-text);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.lemma-comment-draft-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background-color: var(--lemma-comment-accent-soft-bg);
+  color: var(--lemma-comment-accent-text);
+  font-family: var(--font-sans);
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.lemma-comment-timestamp {
+  font-family: var(--font-sans);
+  font-size: 0.71rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lemma-comment-card-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.lemma-comment-action-icon-btn {
+  appearance: none;
+  width: 23px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.lemma-comment-action-icon-btn:hover {
+  background-color: var(--item-hover-bg-color);
+  color: var(--heading-color);
+}
+
+.lemma-comment-resolve-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.lemma-comment-resolve-btn:hover {
+  background-color: var(--lemma-comment-resolve-hover-bg);
+  color: var(--lemma-comment-resolve-hover-text);
+}
+
+.lemma-comment-quote {
+  margin: 0;
+  padding: 4px 8px;
+  border-left: 2.5px solid var(--lemma-comment-quote-border);
+  border-radius: 0 3px 3px 0;
+  background-color: var(--lemma-comment-quote-bg);
+  color: var(--text-muted);
+  font-family: var(--font-quote);
+  font-size: 0.78rem;
+  line-height: 1.48;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.lemma-comment-body {
+  font-family: var(--font-sans);
+  font-size: 0.83rem;
+  line-height: 1.58;
+  color: var(--text-color);
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 1px 0;
+}
+
+.lemma-comment-inline-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.lemma-comment-textarea {
+  width: 100%;
+  min-height: 74px;
+  max-height: 220px;
+  box-sizing: border-box;
+  padding: 7px 9px;
+  border: 1px solid var(--latex-border-soft);
+  border-radius: 5px;
+  background-color: var(--latex-code-bg);
+  color: var(--text-color);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.52;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease,
+    background-color 0.14s ease;
+}
+
+.lemma-comment-textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.72;
+}
+
+.lemma-comment-textarea:focus {
+  background-color: var(--bg-color);
+  border-color: var(--lemma-comment-accent);
+  box-shadow: 0 0 0 2px var(--lemma-comment-active-glow);
+}
+
+.lemma-comment-editor-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  user-select: none;
+}
+
+.lemma-comment-btn-secondary,
+.lemma-comment-btn-primary {
+  appearance: none;
+  height: 25px;
+  padding: 0 10px;
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease,
+    opacity 0.12s ease;
+}
+
+.lemma-comment-btn-secondary {
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--control-text-color);
+}
+
+.lemma-comment-btn-secondary:hover {
+  background-color: var(--item-hover-bg-color);
+  color: var(--heading-color);
+}
+
+.lemma-comment-btn-primary {
+  border: 1px solid var(--lemma-comment-accent);
+  background-color: var(--lemma-comment-accent);
+  color: #ffffff;
+}
+
+.lemma-comment-btn-primary:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.lemma-comment-btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---- 6. Empty Guidance Card ---- */
+.lemma-comment-empty-state {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 8px;
+}
+
+.lemma-comment-empty-card {
+  width: 100%;
+  padding: 20px 16px;
+  border-radius: 6px;
+  border: 1px dashed var(--latex-border-soft);
+  background-color: var(--bg-color);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.lemma-comment-empty-icon {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 10px auto;
+  border-radius: 999px;
+  background-color: var(--lemma-comment-accent-soft-bg);
+  color: var(--lemma-comment-accent-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lemma-comment-empty-title {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  margin-bottom: 10px;
+}
+
+.lemma-comment-empty-tips {
+  margin: 0;
+  padding-left: 18px;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: 0.77rem;
+  line-height: 1.62;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lemma-comment-empty-tips strong {
+  color: var(--heading-color);
+  font-weight: 600;
+}
+
+.lemma-comment-empty-tips code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.08em 0.32em;
+  border-radius: 3px;
+  background-color: var(--latex-code-inline-bg);
+  color: var(--latex-code-inline-color);
+  border: 1px solid var(--latex-code-inline-border);
+}
+
+/* ---- 7. Print & PDF Export ---- */
+@media print {
+  .lemma-selection-toolbar,
+  .lemma-comment-rail {
+    display: none !important;
+  }
+}

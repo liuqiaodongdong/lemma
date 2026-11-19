@@ -1,0 +1,321 @@
+/* ============================================================================
+ * Lemma Diff Review Styles (Shared Contract with Agent 4's Diff Plugin)
+ * Supports both html[data-theme="light"] and html[data-theme="dark"]
+ * ============================================================================ */
+
+:root,
+html[data-theme="light"] {
+  --diff-ins-bg: rgba(16, 185, 129, 0.16);
+  --diff-ins-text: #065f46;
+  --diff-ins-border: #059669;
+
+  --diff-del-bg: rgba(225, 29, 72, 0.12);
+  --diff-del-text: #9f1239;
+  --diff-del-strike: rgba(190, 18, 60, 0.78);
+  --diff-del-border: #e11d48;
+  --diff-del-dashed: rgba(190, 18, 60, 0.42);
+
+  --diff-mod-bg: rgba(11, 61, 145, 0.045);
+  --diff-mod-border: #1d4ed8;
+
+  --diff-add-block-bg: rgba(16, 185, 129, 0.065);
+  --diff-add-block-border: #10b981;
+
+  --diff-del-block-bg: rgba(225, 29, 72, 0.055);
+  --diff-del-block-text: #881337;
+
+  --diff-active-ring: #0b3d91;
+  --diff-active-glow: rgba(11, 61, 145, 0.16);
+
+  --diff-card-bg: #fafbfc;
+  --diff-card-border: #d0d7de;
+  --diff-before-header-bg: rgba(225, 29, 72, 0.08);
+  --diff-before-header-text: #9f1239;
+  --diff-after-header-bg: rgba(16, 185, 129, 0.1);
+  --diff-after-header-text: #065f46;
+
+  --diff-pill-bg: #ffffff;
+  --diff-pill-border: #d0d5dd;
+  --diff-pill-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
+}
+
+html[data-theme="dark"] {
+  --diff-ins-bg: rgba(46, 160, 67, 0.22);
+  --diff-ins-text: #7ee787;
+  --diff-ins-border: #3fb950;
+
+  --diff-del-bg: rgba(248, 81, 73, 0.2);
+  --diff-del-text: #ffa198;
+  --diff-del-strike: rgba(248, 81, 73, 0.85);
+  --diff-del-border: #f85149;
+  --diff-del-dashed: rgba(248, 81, 73, 0.45);
+
+  --diff-mod-bg: rgba(56, 139, 253, 0.08);
+  --diff-mod-border: #58a6ff;
+
+  --diff-add-block-bg: rgba(46, 160, 67, 0.09);
+  --diff-add-block-border: #3fb950;
+
+  --diff-del-block-bg: rgba(248, 81, 73, 0.09);
+  --diff-del-block-text: #ffa198;
+
+  --diff-active-ring: #6cb6ff;
+  --diff-active-glow: rgba(108, 182, 255, 0.22);
+
+  --diff-card-bg: #14171d;
+  --diff-card-border: #30363d;
+  --diff-before-header-bg: rgba(248, 81, 73, 0.14);
+  --diff-before-header-text: #ffa198;
+  --diff-after-header-bg: rgba(46, 160, 67, 0.15);
+  --diff-after-header-text: #7ee787;
+
+  --diff-pill-bg: #1e2229;
+  --diff-pill-border: #373e47;
+  --diff-pill-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* ---- 1. Inline Character / Token Diff Marks ---- */
+.lemma-diff-ins {
+  background-color: var(--diff-ins-bg);
+  color: var(--diff-ins-text);
+  border-bottom: 1.5px solid var(--diff-ins-border);
+  border-radius: 2px;
+  padding: 0.03em 0.12em;
+  text-decoration: none;
+  text-indent: 0 !important;
+}
+
+.lemma-diff-del {
+  background-color: var(--diff-del-bg);
+  color: var(--diff-del-text);
+  text-decoration: line-through;
+  text-decoration-color: var(--diff-del-strike);
+  text-decoration-thickness: 1.5px;
+  border-radius: 2px;
+  padding: 0.03em 0.14em;
+  margin: 0 0.04em;
+  opacity: 0.9;
+  user-select: none;
+  text-indent: 0 !important;
+}
+
+/* Hide inline & block deletions when user toggles showDeletions off */
+.lemma-hide-deletions .lemma-diff-del {
+  display: none !important;
+}
+
+.lemma-hide-deletions .lemma-diff-block-deleted {
+  display: none !important;
+}
+
+/* ---- 2. Block-Level Diff Decorations ---- */
+.lemma-diff-block-added {
+  position: relative;
+  border-left: 3.5px solid var(--diff-add-block-border);
+  background-color: var(--diff-add-block-bg);
+  padding-left: 0.8em;
+  padding-right: 0.4em;
+  border-radius: 0 3px 3px 0;
+  transition: box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.lemma-diff-block-modified {
+  position: relative;
+  border-left: 3.5px solid var(--diff-mod-border);
+  background-color: var(--diff-mod-bg);
+  padding-left: 0.8em;
+  padding-right: 0.4em;
+  border-radius: 0 3px 3px 0;
+  transition: box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.lemma-diff-block-deleted {
+  position: relative;
+  margin: 0.75em 0;
+  padding: 0.65em 1em;
+  border: 1px dashed var(--diff-del-dashed);
+  border-left: 3.5px solid var(--diff-del-border);
+  border-radius: 0 3px 3px 0;
+  background-color: var(--diff-del-block-bg);
+  color: var(--diff-del-block-text);
+  font-size: 0.95em;
+  line-height: 1.65;
+  text-decoration: line-through;
+  text-decoration-color: var(--diff-del-strike);
+  user-select: none;
+  text-indent: 0 !important;
+}
+
+.lemma-diff-block-deleted p {
+  margin: 0.25em 0;
+  text-indent: 0 !important;
+}
+
+/* ---- 3. Active Hunk Spotlight Ring (Prev / Next Hunk Navigation) ---- */
+.lemma-diff-active-hunk {
+  outline: 2px solid var(--diff-active-ring) !important;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 5px var(--diff-active-glow);
+  border-radius: 3px;
+  scroll-margin-top: 96px;
+}
+
+/* ---- 4. Academic Before / After Comparison Card (KaTeX Math & SVG Figures) ---- */
+.lemma-diff-compare-card {
+  position: relative;
+  margin: 0.85em 0 1.1em 0;
+  border: 1px solid var(--diff-card-border);
+  border-radius: 4px;
+  background-color: var(--diff-card-bg);
+  overflow: hidden;
+  font-family: var(--font-body);
+  text-indent: 0 !important;
+  user-select: none;
+}
+
+.lemma-diff-compare-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4em 0.8em;
+  border-bottom: 1px solid var(--diff-card-border);
+  font-family: var(--font-sans);
+  font-size: 0.76em;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.lemma-diff-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0;
+}
+
+.lemma-diff-compare-pane {
+  padding: 0.7em 0.9em;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--diff-card-border);
+}
+
+.lemma-diff-compare-pane:last-child {
+  border-bottom: none;
+}
+
+.lemma-diff-compare-grid > .lemma-diff-compare-pane + .lemma-diff-compare-pane {
+  border-left: 1px solid var(--diff-card-border);
+}
+
+.lemma-diff-compare-label {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.14em 0.5em;
+  border-radius: 3px;
+  margin-bottom: 0.5em;
+}
+
+.lemma-diff-compare-before .lemma-diff-compare-label,
+.lemma-diff-label-before {
+  background-color: var(--diff-before-header-bg);
+  color: var(--diff-before-header-text);
+}
+
+.lemma-diff-compare-after .lemma-diff-compare-label,
+.lemma-diff-label-after {
+  background-color: var(--diff-after-header-bg);
+  color: var(--diff-after-header-text);
+}
+
+/* ---- 5. Floating Per-Hunk Action Pill (Accept / Revert) ---- */
+.lemma-diff-hunk-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0.25em 0 0.85em 0;
+  padding: 2px 5px;
+  background-color: var(--diff-pill-bg);
+  border: 1px solid var(--diff-pill-border);
+  border-radius: 999px;
+  box-shadow: var(--diff-pill-shadow);
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  line-height: 1.2;
+  text-decoration: none !important;
+  text-indent: 0 !important;
+  user-select: none;
+  z-index: 20;
+  vertical-align: middle;
+}
+
+.lemma-diff-hunk-summary {
+  padding: 2px 7px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.lemma-diff-block-added > .lemma-diff-hunk-actions,
+.lemma-diff-block-modified > .lemma-diff-hunk-actions,
+.lemma-diff-block-deleted > .lemma-diff-hunk-actions {
+  position: absolute;
+  top: -12px;
+  right: 6px;
+  margin: 0;
+}
+
+.lemma-diff-btn-accept,
+.lemma-diff-btn-revert {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: none;
+  background: transparent;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.14s ease, color 0.14s ease;
+  text-decoration: none !important;
+}
+
+.lemma-diff-btn-accept {
+  color: var(--diff-ins-text);
+}
+
+.lemma-diff-btn-accept:hover {
+  background-color: var(--diff-ins-bg);
+}
+
+.lemma-diff-btn-revert {
+  color: var(--diff-del-text);
+}
+
+.lemma-diff-btn-revert:hover {
+  background-color: var(--diff-del-bg);
+}
+
+@media print {
+  .lemma-diff-hunk-actions,
+  .lemma-diff-compare-card,
+  .lemma-diff-block-deleted,
+  .lemma-diff-del {
+    display: none !important;
+  }
+
+  .lemma-diff-ins,
+  .lemma-diff-block-added,
+  .lemma-diff-block-modified {
+    background: transparent !important;
+    border: none !important;
+    color: inherit !important;
+    padding-left: 0 !important;
+  }
+
+  .lemma-diff-active-hunk {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}

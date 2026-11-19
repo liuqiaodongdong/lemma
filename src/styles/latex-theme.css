@@ -1,0 +1,1001 @@
+/* ============================================================================
+ * Lemma Academic Theme: 1:1 Port of Typora LaTeX Academic (Light & Dark)
+ * Style Lineage: article + ctexart + booktabs + listings + tcolorbox
+ * Supports live DOM switching via html[data-theme="light" | "dark"]
+ * ============================================================================ */
+
+/* ---- 1. TeX Live Native Latin Modern Font Declarations ---- */
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/latex/lmroman10-regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/latex/lmroman10-italic.otf") format("opentype");
+}
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/latex/lmroman10-bold.otf") format("opentype");
+}
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/latex/lmroman10-bolditalic.otf") format("opentype");
+}
+@font-face {
+  font-family: "Latin Modern Roman Caps";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/latex/lmromancaps10-regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "Latin Modern Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/latex/lmmono10-regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "Latin Modern Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/latex/lmmono10-italic.otf") format("opentype");
+}
+@font-face {
+  font-family: "Latin Modern Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/latex/lmmonolt10-bold.otf") format("opentype");
+}
+@font-face {
+  font-family: "Latin Modern Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/latex/lmsans10-regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "Latin Modern Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/latex/lmsans10-bold.otf") format("opentype");
+}
+
+/* ---- 2. Theme Tokens: Light (Default) & Dark ---- */
+:root,
+html[data-theme="light"] {
+  /* Paper & Desk Palette */
+  --desk-bg-color: #ebeef2;
+  --bg-color: #ffffff;
+  --window-bg-color: #f4f5f7;
+  --text-color: #141414;
+  --heading-color: #000000;
+  --text-muted: #555555;
+
+  /* Shell & Sidebar Controls */
+  --side-bar-bg-color: #f4f5f7;
+  --control-text-color: #4a4a4a;
+  --select-text-bg-color: rgba(11, 61, 145, 0.14);
+  --select-text-font-color: inherit;
+  --active-file-bg-color: #e2e6ec;
+  --active-file-text-color: #111111;
+  --active-file-border-color: #0b3d91;
+  --item-hover-bg-color: #eaecef;
+  --window-border: 1px solid #dcdfe4;
+  --border-color: #dcdfe4;
+
+  /* Paper Card Elevation */
+  --paper-border-color: #e1e4e8;
+  --paper-shadow: 0 4px 24px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
+  --caret-color: #111111;
+
+  /* Academic Accents (LaTeX hyperref & booktabs) */
+  --latex-link-color: #0b3d91;
+  --latex-cite-color: #7a1c1c;
+  --latex-rule-color: #111111;
+  --latex-h2-rule-color: #d8dee4;
+  --latex-border-soft: #d0d5dd;
+  --latex-code-bg: #f8f9fb;
+  --latex-code-inline-bg: #f2f4f7;
+  --latex-code-inline-color: #1f2328;
+  --latex-code-inline-border: #e4e7ec;
+  --latex-fences-rule-color: #222222;
+  --latex-fences-side-border: #e1e4e8;
+  --latex-quote-bg: #f9fafb;
+  --latex-quote-border: #222222;
+  --latex-quote-text: #222222;
+  --latex-table-hover-bg: rgba(0, 0, 0, 0.025);
+  --latex-mark-bg: #fff3b0;
+  --latex-mark-color: #141414;
+  --latex-hr-color: #111111;
+  --latex-toc-bg: #fafbfc;
+
+  /* tcolorbox Alert Palette (Light) */
+  --alert-default-bg: #f8f9fb;
+  --alert-note-border: #0b3d91;
+  --alert-note-bg: #f4f7fb;
+  --alert-note-title: #0b3d91;
+  --alert-tip-border: #1b6535;
+  --alert-tip-bg: #f3f9f5;
+  --alert-tip-title: #1b6535;
+  --alert-important-border: #5b2c83;
+  --alert-important-bg: #f7f4fa;
+  --alert-important-title: #5b2c83;
+  --alert-warning-border: #9a5b13;
+  --alert-warning-bg: #fdf8f2;
+  --alert-warning-title: #9a5b13;
+  --alert-caution-border: #8b1a1a;
+  --alert-caution-bg: #fbf4f4;
+  --alert-caution-title: #8b1a1a;
+
+  /* Typography Font Stacks */
+  --font-body: "Latin Modern Roman", "Computer Modern", "CMU Serif", "Times New Roman",
+               "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", "宋体", serif;
+  --font-heading: "Latin Modern Roman", "Computer Modern", "Times New Roman",
+                  "Noto Serif SC", "Source Han Serif SC", "SimHei", "黑体", serif;
+  --font-quote: "Latin Modern Roman", "Computer Modern", "Times New Roman",
+                "KaiTi", "STKaiti", "楷体", "Noto Serif SC", serif;
+  --font-caps: "Latin Modern Roman Caps", "Latin Modern Roman", serif;
+  --font-sans: "Latin Modern Sans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "Latin Modern Mono", "JetBrains Mono", "Consolas",
+               "Noto Serif SC", "SimSun", monospace;
+}
+
+html[data-theme="dark"] {
+  /* Low-Glare Academic Slate Paper & Desk Palette */
+  --desk-bg-color: #111317;
+  --bg-color: #181b20;
+  --window-bg-color: #15181c;
+  --text-color: #dcdfe4;
+  --heading-color: #f0f3f6;
+  --text-muted: #8b949e;
+
+  /* Shell & Sidebar Controls */
+  --side-bar-bg-color: #14161a;
+  --control-text-color: #9ca3af;
+  --select-text-bg-color: #264f78;
+  --select-text-font-color: #ffffff;
+  --active-file-bg-color: rgba(108, 182, 255, 0.12);
+  --active-file-text-color: #f0f3f6;
+  --active-file-border-color: #6cb6ff;
+  --item-hover-bg-color: rgba(255, 255, 255, 0.05);
+  --window-border: 1px solid #282c34;
+  --border-color: #2b3038;
+
+  /* Paper Card Elevation */
+  --paper-border-color: #262b33;
+  --paper-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 1px 4px rgba(0, 0, 0, 0.3);
+  --caret-color: #6cb6ff;
+
+  /* Academic Accents (Dark Adaptation) */
+  --latex-link-color: #6cb6ff;
+  --latex-cite-color: #f47067;
+  --latex-rule-color: #c9d1d9;
+  --latex-h2-rule-color: #30363d;
+  --latex-border-soft: #30363d;
+  --latex-code-bg: #13161a;
+  --latex-code-inline-bg: #21262d;
+  --latex-code-inline-color: #e6edf3;
+  --latex-code-inline-border: #30363d;
+  --latex-fences-rule-color: #8b949e;
+  --latex-fences-side-border: #282e36;
+  --latex-quote-bg: #1e2229;
+  --latex-quote-border: #8b949e;
+  --latex-quote-text: #d0d7de;
+  --latex-table-hover-bg: rgba(255, 255, 255, 0.035);
+  --latex-mark-bg: rgba(210, 153, 34, 0.35);
+  --latex-mark-color: #f0f3f6;
+  --latex-hr-color: #30363d;
+  --latex-toc-bg: #1c2026;
+
+  /* tcolorbox Alert Palette (Dark) */
+  --alert-default-bg: #1c2026;
+  --alert-note-border: #58a6ff;
+  --alert-note-bg: rgba(56, 139, 253, 0.1);
+  --alert-note-title: #79c0ff;
+  --alert-tip-border: #3fb950;
+  --alert-tip-bg: rgba(46, 160, 67, 0.1);
+  --alert-tip-title: #56d364;
+  --alert-important-border: #a371f7;
+  --alert-important-bg: rgba(137, 87, 229, 0.1);
+  --alert-important-title: #d2a8ff;
+  --alert-warning-border: #d29922;
+  --alert-warning-bg: rgba(187, 128, 9, 0.1);
+  --alert-warning-title: #e3b341;
+  --alert-caution-border: #f85149;
+  --alert-caution-bg: rgba(248, 81, 73, 0.1);
+  --alert-caution-title: #ffa198;
+}
+
+/* ---- 3. Base Document, Desk Scroll & A4 Paper Container ---- */
+html {
+  font-size: 16px;
+  background-color: var(--desk-bg-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-color);
+  background-color: var(--desk-bg-color);
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background-color: var(--select-text-bg-color);
+  color: var(--select-text-font-color);
+}
+
+.lemma-desk-scroll {
+  background-color: var(--desk-bg-color);
+}
+
+/* A4 Paper Core Editing Surface (Scales proportionally with window & Ctrl+Wheel zoom) */
+#write {
+  width: 100%;
+  max-width: min(calc(840px * var(--doc-scale, 1)), calc(100% - 36px));
+  min-height: calc(100vh - 92px);
+  margin: calc(28px * var(--doc-pad-scale, 1)) auto calc(48px * var(--doc-pad-scale, 1)) auto;
+  padding: calc(68px * var(--doc-pad-scale, 1)) calc(78px * var(--doc-pad-scale, 1)) calc(92px * var(--doc-pad-scale, 1)) calc(78px * var(--doc-pad-scale, 1));
+  box-sizing: border-box;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  font-size: calc(16.8px * var(--doc-scale, 1));
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  box-shadow: var(--paper-shadow);
+  border: 1px solid var(--paper-border-color);
+  border-radius: 2px;
+  caret-color: var(--caret-color);
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+#write .ProseMirror {
+  outline: none;
+  min-height: 60vh;
+  word-wrap: break-word;
+}
+
+#write .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: var(--text-muted);
+  opacity: 0.65;
+  font-style: italic;
+  text-indent: 0;
+}
+
+@media screen and (max-width: 960px) {
+  #write {
+    margin: 0 auto;
+    padding: 40px 32px 64px 32px;
+    box-shadow: none;
+    border: none;
+  }
+}
+
+/* ---- 4. Paragraphs & Chinese Academic First-Line Indent (ctexart 2em) ---- */
+#write p {
+  margin: 0.55em 0;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  hyphens: auto;
+  word-break: break-word;
+}
+
+#write .ProseMirror > p,
+#write > p {
+  text-indent: 2em;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  margin: 0.55em 0;
+}
+
+/* Prevent child elements (KaTeX inline-blocks, code, images, spans) from inheriting 2em indent */
+#write p > *,
+#write .katex,
+#write .lemma-math-inline,
+#write mjx-container,
+#write code,
+#write img,
+#write svg,
+#write figure {
+  text-indent: 0 !important;
+}
+
+/* Explicit text-indent: 0 exclusions for standalone figures, math, callouts, quotes, lists, tables */
+#write .ProseMirror > p:has(> img:only-child),
+#write > p:has(> img:only-child),
+#write .ProseMirror > p:has(> .lemma-local-image:only-child),
+#write > p:has(> .lemma-local-image:only-child),
+#write .ProseMirror > p:has(> figure:only-child),
+#write > p:has(> figure:only-child),
+#write .ProseMirror > p:has(> .lemma-math-block:only-child),
+#write > p:has(> .lemma-math-block:only-child),
+#write .ProseMirror > p:has(> .lemma-svg-figure:only-child),
+#write > p:has(> .lemma-svg-figure:only-child),
+#write .lemma-math-block,
+#write .lemma-math-block p,
+#write .lemma-svg-figure,
+#write .lemma-svg-figure p,
+#write .lemma-local-image,
+#write blockquote p,
+#write .md-alert p,
+#write [data-callout] p,
+#write .lemma-callout p,
+#write li p,
+#write th p,
+#write td p,
+#write .footnotes-area p {
+  text-indent: 0 !important;
+}
+
+#write strong,
+#write b {
+  font-weight: 700;
+  color: var(--heading-color);
+}
+
+#write em,
+#write i {
+  font-style: italic;
+}
+
+#write u {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+#write del,
+#write s {
+  color: var(--text-muted);
+}
+
+#write mark {
+  background-color: var(--latex-mark-bg);
+  color: var(--latex-mark-color);
+  padding: 0.08em 0.25em;
+  border-radius: 2px;
+}
+
+/* Hyperlinks: LaTeX hyperref palette */
+#write a {
+  color: var(--latex-link-color);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+#write a:hover {
+  border-bottom-color: var(--latex-link-color);
+}
+
+/* ---- 5. Section Headings (H1 \maketitle, H2 \section, H3-H6, No Auto Counters) ---- */
+#write h1,
+#write h2,
+#write h3,
+#write h4,
+#write h5,
+#write h6 {
+  font-family: var(--font-heading);
+  color: var(--heading-color);
+  font-weight: 700;
+  line-height: 1.35;
+  text-indent: 0;
+  counter-reset: none;
+  counter-increment: none;
+  page-break-after: avoid;
+  break-after: avoid-page;
+}
+
+#write h1 {
+  font-size: 1.86em;
+  text-align: center;
+  margin-top: 0.4em;
+  margin-bottom: 1.2em;
+  padding-bottom: 0.45em;
+  border-bottom: 1.5px solid var(--latex-rule-color);
+  letter-spacing: 0.02em;
+}
+
+#write h2 {
+  font-size: 1.38em;
+  margin-top: 1.75em;
+  margin-bottom: 0.7em;
+  padding-bottom: 0.2em;
+  border-bottom: 1px solid var(--latex-h2-rule-color);
+}
+
+#write h3 {
+  font-size: 1.16em;
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+}
+
+#write h4 {
+  font-size: 1.03em;
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+}
+
+#write h5 {
+  font-size: 0.96em;
+  margin-top: 1.0em;
+  margin-bottom: 0.35em;
+}
+
+#write h6 {
+  font-size: 0.91em;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 0.9em;
+  margin-bottom: 0.3em;
+}
+
+/* ---- 6. Native Booktabs Three-Line Tables (\toprule, \midrule, \bottomrule) ---- */
+#write figure.table-figure,
+#write .tableWrapper {
+  margin: 1.5em auto;
+  overflow-x: auto;
+}
+
+#write table {
+  width: 100%;
+  max-width: 100%;
+  margin: 1.2em auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 0.92em;
+  /* \toprule & \bottomrule */
+  border-top: 2px solid var(--latex-rule-color);
+  border-bottom: 2px solid var(--latex-rule-color);
+  page-break-inside: avoid;
+}
+
+#write thead,
+#write tbody > tr:has(> th) {
+  /* \midrule (works both with <thead> and Tiptap's header row inside <tbody>) */
+  border-bottom: 1.2px solid var(--latex-rule-color);
+  background-color: transparent;
+}
+
+#write th,
+#write td {
+  padding: 0.55em 0.9em;
+  border: none !important;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+#write th {
+  font-weight: 700;
+  color: var(--heading-color);
+}
+
+#write th > p,
+#write td > p {
+  margin: 0;
+  text-indent: 0 !important;
+  text-align: inherit;
+}
+
+#write tbody tr {
+  background-color: transparent;
+  transition: background-color 0.12s ease;
+}
+
+#write tbody tr:hover {
+  background-color: var(--latex-table-hover-bg);
+}
+
+#write td.selectedCell,
+#write th.selectedCell {
+  background-color: var(--select-text-bg-color);
+}
+
+/* ---- 7. Blockquotes (KaiTi 楷体) & GitHub Alerts (tcolorbox Theorems/Callouts) ---- */
+#write blockquote {
+  margin: 1.15em 0;
+  padding: 0.75em 1.25em;
+  background-color: var(--latex-quote-bg);
+  border-left: 3px solid var(--latex-quote-border);
+  border-radius: 0 2px 2px 0;
+  font-family: var(--font-quote);
+  color: var(--latex-quote-text);
+}
+
+#write blockquote p {
+  margin: 0.45em 0;
+  text-indent: 0 !important;
+}
+
+#write blockquote > :first-child {
+  margin-top: 0;
+}
+
+#write blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* GitHub-style Alerts / Callouts (tcolorbox style) */
+#write .md-alert,
+#write [data-callout],
+#write .lemma-callout {
+  margin: 1.2em 0;
+  padding: 0.85em 1.25em;
+  border-left-width: 3.5px;
+  border-left-style: solid;
+  border-left-color: var(--alert-note-border);
+  border-radius: 0 3px 3px 0;
+  background-color: var(--alert-default-bg);
+  font-family: var(--font-body);
+  color: var(--text-color);
+}
+
+#write .md-alert-text-container,
+#write .md-alert-title,
+#write .lemma-callout-title,
+#write .lemma-callout-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.91em;
+  margin-bottom: 0.35em;
+  line-height: 1.4;
+}
+
+#write .md-alert > :last-child,
+#write [data-callout] > :last-child,
+#write .lemma-callout > :last-child {
+  margin-bottom: 0;
+}
+
+#write .md-alert.md-alert-note,
+#write [data-callout="note"] {
+  border-left-color: var(--alert-note-border);
+  background-color: var(--alert-note-bg);
+}
+#write .md-alert.md-alert-note .md-alert-text-container,
+#write .md-alert.md-alert-note .md-alert-title,
+#write [data-callout="note"] .lemma-callout-title {
+  color: var(--alert-note-title);
+}
+
+#write .md-alert.md-alert-tip,
+#write [data-callout="tip"] {
+  border-left-color: var(--alert-tip-border);
+  background-color: var(--alert-tip-bg);
+}
+#write .md-alert.md-alert-tip .md-alert-text-container,
+#write .md-alert.md-alert-tip .md-alert-title,
+#write [data-callout="tip"] .lemma-callout-title {
+  color: var(--alert-tip-title);
+}
+
+#write .md-alert.md-alert-important,
+#write [data-callout="important"] {
+  border-left-color: var(--alert-important-border);
+  background-color: var(--alert-important-bg);
+}
+#write .md-alert.md-alert-important .md-alert-text-container,
+#write .md-alert.md-alert-important .md-alert-title,
+#write [data-callout="important"] .lemma-callout-title {
+  color: var(--alert-important-title);
+}
+
+#write .md-alert.md-alert-warning,
+#write [data-callout="warning"] {
+  border-left-color: var(--alert-warning-border);
+  background-color: var(--alert-warning-bg);
+}
+#write .md-alert.md-alert-warning .md-alert-text-container,
+#write .md-alert.md-alert-warning .md-alert-title,
+#write [data-callout="warning"] .lemma-callout-title {
+  color: var(--alert-warning-title);
+}
+
+#write .md-alert.md-alert-caution,
+#write [data-callout="caution"] {
+  border-left-color: var(--alert-caution-border);
+  background-color: var(--alert-caution-bg);
+}
+#write .md-alert.md-alert-caution .md-alert-text-container,
+#write .md-alert.md-alert-caution .md-alert-title,
+#write [data-callout="caution"] .lemma-callout-title {
+  color: var(--alert-caution-title);
+}
+
+/* ---- 8. Lists & Task Lists (LaTeX itemize / enumerate) ---- */
+#write ul,
+#write ol {
+  margin: 0.7em 0;
+  padding-left: 2em;
+}
+
+#write li {
+  margin: 0.28em 0;
+  line-height: 1.7;
+}
+
+#write li > p {
+  margin: 0.25em 0;
+  text-indent: 0 !important;
+}
+
+#write ul > li {
+  list-style-type: disc;
+}
+
+#write ul ul > li {
+  list-style-type: circle;
+}
+
+#write ul ul ul > li {
+  list-style-type: square;
+}
+
+/* Tiptap Task Lists */
+#write ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0.4em;
+}
+
+#write ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55em;
+  list-style: none;
+}
+
+#write ul[data-type="taskList"] li > label {
+  flex: 0 0 auto;
+  margin-top: 0.25em;
+  user-select: none;
+}
+
+#write ul[data-type="taskList"] li > label input[type="checkbox"] {
+  accent-color: var(--active-file-border-color);
+  cursor: pointer;
+}
+
+#write ul[data-type="taskList"] li > div {
+  flex: 1 1 auto;
+}
+
+#write ul[data-type="taskList"] li[data-checked="true"] > div {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+/* ---- 9. Code Blocks (LaTeX listings / minted) & Inline Code (\texttt) ---- */
+#write code,
+#write tt {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--latex-code-inline-bg);
+  color: var(--latex-code-inline-color);
+  padding: 0.12em 0.38em;
+  border-radius: 2px;
+  border: 1px solid var(--latex-code-inline-border);
+}
+
+#write pre,
+#write .md-fences {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  line-height: 1.55;
+  background-color: var(--latex-code-bg);
+  color: var(--latex-code-inline-color);
+  border-top: 1.2px solid var(--latex-fences-rule-color);
+  border-bottom: 1.2px solid var(--latex-fences-rule-color);
+  border-left: 1px solid var(--latex-fences-side-border);
+  border-right: 1px solid var(--latex-fences-side-border);
+  border-radius: 0;
+  padding: 0.75em 0.95em;
+  margin: 1.25em 0;
+  overflow-x: auto;
+  page-break-inside: avoid;
+}
+
+#write pre code {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre;
+}
+
+/* ---- 10. KaTeX Math & SVG Figure Layout Styles ---- */
+#write .katex {
+  font-size: 1.05em;
+  color: inherit;
+}
+
+#write .lemma-math-inline {
+  display: inline;
+  margin: 0 0.08em;
+  padding: 0.04em 0.14em;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  text-indent: 0 !important;
+}
+
+#write .lemma-math-inline:hover,
+#write .lemma-math-inline.ProseMirror-selectednode {
+  background-color: var(--select-text-bg-color);
+}
+
+#write .lemma-math-block {
+  position: relative;
+  margin: 1.15em 0;
+  padding: 0.55em 0.75em;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  text-indent: 0 !important;
+  page-break-inside: avoid;
+}
+
+#write .lemma-math-block:hover,
+#write .lemma-math-block.ProseMirror-selectednode {
+  background-color: var(--latex-quote-bg);
+  border-color: var(--latex-border-soft);
+}
+
+#write .lemma-math-block .katex-display {
+  margin: 0.15em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#write .lemma-math-deferred {
+  font-family: "Latin Modern Math", "Latin Modern Roman", "Cambria Math", Georgia, serif;
+  font-style: italic;
+  padding: 0 0.08em;
+}
+
+#write .lemma-math-block-deferred {
+  font-family: "Latin Modern Math", "Latin Modern Roman", serif;
+  font-style: italic;
+  padding: 0.5rem 0;
+  opacity: 0.85;
+  white-space: pre-wrap;
+}
+
+/* Interactive LaTeX Source Popover / Editor Card */
+.lemma-math-popover {
+  margin-top: 0.5em;
+  padding: 0.65em 0.8em;
+  background-color: var(--bg-color);
+  border: 1px solid var(--latex-border-soft);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14);
+  font-family: var(--font-sans);
+  font-size: 0.82em;
+  text-align: left;
+  text-indent: 0 !important;
+  z-index: 40;
+}
+
+.lemma-math-popover textarea,
+.lemma-math-popover input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 0.98em;
+  line-height: 1.5;
+  padding: 0.45em 0.6em;
+  color: var(--latex-code-inline-color);
+  background-color: var(--latex-code-bg);
+  border: 1px solid var(--latex-border-soft);
+  border-radius: 3px;
+  outline: none;
+  resize: vertical;
+}
+
+.lemma-math-popover textarea:focus,
+.lemma-math-popover input[type="text"]:focus {
+  border-color: var(--latex-link-color);
+}
+
+/* Native SVG Vector Figure Block */
+#write .lemma-svg-figure {
+  position: relative;
+  margin: 1.45em auto;
+  padding: 0.75em 0.9em;
+  text-align: center;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  text-indent: 0 !important;
+  page-break-inside: avoid;
+}
+
+#write .lemma-svg-figure:hover,
+#write .lemma-svg-figure.ProseMirror-selectednode {
+  background-color: var(--latex-quote-bg);
+  border-color: var(--latex-border-soft);
+}
+
+#write .lemma-svg-figure svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+/* Ensure transparent-bg black-ink SVGs remain clear in dark mode */
+html[data-theme="dark"] #write .lemma-svg-figure svg {
+  background-color: #f8fafc;
+  opacity: 0.93;
+  transition: opacity 0.2s ease;
+}
+
+html[data-theme="dark"] #write .lemma-svg-figure:hover svg {
+  opacity: 1;
+}
+
+/* ---- 11. Images, Captions, Horizontal Rules & Footnotes ---- */
+#write img,
+#write .lemma-local-image img {
+  display: block;
+  max-width: 92%;
+  height: auto;
+  margin: 1.2em auto 0.4em auto;
+  border-radius: 2px;
+}
+
+html[data-theme="dark"] #write img {
+  opacity: 0.92;
+  transition: opacity 0.2s ease;
+}
+
+html[data-theme="dark"] #write img:hover {
+  opacity: 1;
+}
+
+#write p > img:only-child + em,
+#write figcaption,
+#write .lemma-figure-caption {
+  display: block;
+  text-align: center;
+  font-size: 0.86em;
+  font-style: normal;
+  color: var(--text-muted);
+  margin-top: 0.45em;
+  text-indent: 0 !important;
+}
+
+#write hr {
+  border: none;
+  border-top: 1px solid var(--latex-hr-color);
+  margin: 2em auto;
+  width: 100%;
+}
+
+#write .footnotes-area {
+  margin-top: 2.5em;
+  padding-top: 0.8em;
+  border-top: 1px solid var(--latex-border-soft);
+  font-size: 0.84em;
+  color: var(--text-muted);
+}
+
+/* ---- 12. Print & PDF Export (@media print — Always Restores White Paper & Black Ink) ---- */
+@media print {
+  @page {
+    size: A4;
+    margin: 22mm 20mm 22mm 20mm;
+  }
+
+  :root,
+  html[data-theme="light"],
+  html[data-theme="dark"] {
+    --desk-bg-color: #ffffff;
+    --bg-color: #ffffff;
+    --text-color: #141414;
+    --heading-color: #000000;
+    --text-muted: #555555;
+    --latex-rule-color: #111111;
+    --latex-h2-rule-color: #d8dee4;
+    --latex-border-soft: #d0d5dd;
+    --latex-code-bg: #f8f9fb;
+    --latex-quote-bg: #f9fafb;
+    --latex-quote-border: #222222;
+    --latex-quote-text: #222222;
+  }
+
+  html,
+  body,
+  .lemma-desk-scroll {
+    background-color: #ffffff !important;
+    color: #141414 !important;
+    font-size: 11pt;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  #write {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background-color: #ffffff !important;
+    color: #141414 !important;
+  }
+
+  #write h1,
+  #write h2,
+  #write h3,
+  #write h4,
+  #write h5,
+  #write th,
+  #write strong,
+  #write b {
+    color: #000000 !important;
+  }
+
+  #write a {
+    color: #000000 !important;
+    border-bottom: none !important;
+  }
+
+  #write .katex {
+    color: #000000 !important;
+  }
+
+  #write table,
+  #write figure,
+  #write blockquote,
+  #write pre,
+  #write .lemma-math-block,
+  #write .lemma-svg-figure {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  #write h1,
+  #write h2,
+  #write h3,
+  #write h4,
+  #write h5 {
+    page-break-after: avoid;
+    break-after: avoid-page;
+  }
+}

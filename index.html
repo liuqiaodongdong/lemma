@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lemma</title>
+    <link
+      rel="preload"
+      href="/fonts/latex/lmroman10-regular.otf"
+      as="font"
+      type="font/otf"
+      crossorigin
+    />
+    <script>
+      try {
+        if (localStorage.getItem('lemma:theme-mode') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        var w = window.innerWidth || 1140;
+        var rawZoom = parseFloat(localStorage.getItem('lemma:user-zoom') || '1');
+        var uz = isFinite(rawZoom) ? Math.min(2.5, Math.max(0.5, rawZoom)) : 1;
+        var autoS = Math.min(2.4, Math.max(1.0, w / 1140));
+        var docS = Math.min(3.2, Math.max(0.55, autoS * uz));
+        var padS = Math.min(docS, Math.max(0.72, w / 1140));
+        document.documentElement.style.setProperty('--boot-doc-scale', docS.toFixed(4));
+        document.documentElement.style.setProperty('--boot-pad-scale', padS.toFixed(4));
+      } catch (e) {}
+    </script>
+    <style>
+      :root,
+      html[data-theme="light"] {
+        --boot-desk-bg: #ebeef2;
+        --boot-topbar-bg: #f4f5f7;
+        --boot-topbar-border: #dcdfe4;
+        --boot-paper-bg: #ffffff;
+        --boot-paper-border: #e1e4e8;
+        --boot-paper-shadow: 0 4px 24px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
+      }
+      html[data-theme="dark"] {
+        --boot-desk-bg: #111317;
+        --boot-topbar-bg: #14161a;
+        --boot-topbar-border: #282c34;
+        --boot-paper-bg: #181b20;
+        --boot-paper-border: #262b33;
+        --boot-paper-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 1px 4px rgba(0, 0, 0, 0.3);
+      }
+      html, body, #root {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: var(--boot-desk-bg);
+      }
+      .lemma-boot-shell {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        background-color: var(--boot-desk-bg);
+      }
+      .lemma-boot-topbar {
+        display: flex;
+        align-items: center;
+        height: 44px;
+        min-height: 44px;
+        padding: 0 12px;
+        background-color: var(--boot-topbar-bg);
+        border-bottom: 1px solid var(--boot-topbar-border);
+        user-select: none;
+      }
+      .lemma-boot-desk {
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background-color: var(--boot-desk-bg);
+      }
+      .lemma-boot-paper {
+        width: 100%;
+        max-width: min(calc(840px * var(--boot-doc-scale, 1)), calc(100% - 36px));
+        min-height: calc(100vh - 92px);
+        margin: calc(28px * var(--boot-pad-scale, 1)) auto calc(48px * var(--boot-pad-scale, 1)) auto;
+        box-sizing: border-box;
+        background-color: var(--boot-paper-bg);
+        border: 1px solid var(--boot-paper-border);
+        border-radius: 2px;
+        box-shadow: var(--boot-paper-shadow);
+      }
+      @media screen and (max-width: 960px) {
+        .lemma-boot-paper {
+          margin: 0 auto;
+          border: none;
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="lemma-boot-shell" aria-hidden="true">
+        <div class="lemma-boot-topbar"></div>
+        <div class="lemma-boot-desk">
+          <div class="lemma-boot-paper"></div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
